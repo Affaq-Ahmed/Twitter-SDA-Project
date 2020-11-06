@@ -24,9 +24,9 @@ class Tweet {
         this.Likers = Likers;
     }
     
-    public int AddTweet(){
-        int Tweet = TwitterDB.Tweet(this.Username, this.Text);
-        this.TweetId = String.valueOf(Tweet);
-        return Tweet;
-    }
+//    public int AddTweet(){
+//        int Tweet = TwitterDB.Tweet(this.Username, this.Text);
+//        this.TweetId = String.valueOf(Tweet);
+//        return Tweet;
+//    }
 }
