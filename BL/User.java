@@ -16,6 +16,8 @@ public class User {
     List<String> Followers;
     List<String> Following;
     List<Tweet> Tweets;
+    List<Tweet> Liked;
+    List<Tweet> Bookmarks;
     
     public User(String Username, String Name, String Password, List<String> Followers, List<String> Following, List<Tweet> Tweets) {
         this.Username = Username;
@@ -33,22 +35,26 @@ public class User {
         int Login = TwitterDB.Login(this);
         return Login;
     }
-    public int Tweet(String Text){
-        Tweets.add(0,new Tweet(null,Text,this.Username,null,null));
-        int Tweet = Tweets.get(0).AddTweet();
-        return Tweet;
-    }
 
     public int Follow(String Username){
         int Follow = TwitterDB.Follow(this.Username, Username);
+        if(Follow==1)//successful
+            Following.add(0,Username);
         return Follow;
     }
     public int UnFollow(String Username){
-        int UnFollow = TwitterDB.UnFollow(this.Username, Username);
-        return UnFollow;
+        Following = TwitterDB.UnFollow(this.Username, Username);
+        return 1;//successfull 
+    }
+    public int Tweet(String Text){
+        int Tweet = TwitterDB.Tweet(this.Username, Text);
+        Tweets.add(0,new Tweet(String.valueOf(Tweet),Text,this.Username,null,null));
+//      int Tweet = Tweets.get(0).AddTweet();
+        return Tweet;
     }
     public int Retweet(String TweetId,String Username,String Text){
         int Retweet = TwitterDB.Retweet(TweetId, Username, this.Username, Text);
+        Tweets.add(0,new ReTweet(String.valueOf(Retweet),Text,this.Username,null,null,Username,TweetId));
         return Retweet;
     }
     public int Dm(String Username,String Text){
