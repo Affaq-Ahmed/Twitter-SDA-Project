@@ -1,10 +1,11 @@
 create database Twitter_DB
 use Twitter_DB
 
+-->>----->> Tables <<------<<--
 Create Table Users
 (
-name nvarchar(100),
 userid nvarchar(100) NOT NULL PRIMARY KEY,
+name nvarchar(100),
 password nvarchar(30),
 )
 go
@@ -74,3 +75,93 @@ userid nvarchar(100) FOREIGN KEY REFERENCES Users(userid),
 tweetid int FOREIGN KEY REFERENCES Tweet(tweetid)
 CONSTRAINT pk_Bookmark PRIMARY KEY (userid,tweetid)
 )
+go
+
+--Drop Table Users
+--Drop Table Followed
+--Drop Table Blocked
+--Drop Table DM
+--Drop Table Tweet
+--Drop Table Reply
+--Drop Table ReTweet
+--Drop Table Likes
+--Drop Table Bookmark
+
+
+-->>----->> Procedures <<------<<--
+--1:
+create Procedure Signup
+@userid nvarchar(100),
+@name nvarchar(100),
+@password nvarchar(30),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Users where Users.userid=@userid)
+		Begin
+			set @output=0 --username already exists
+			return
+		End
+	else
+		Begin
+			Insert into Users values (@userid, @name, @password)
+			set @output=1 --Signup successfully
+		End
+End
+go
+
+declare  @Test int
+exec Signup 'Qasim_1101', 'Qasim','abcd', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Signup 'Hassan_1102', 'Hassan','abcd', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Signup 'Affaq_1141', 'Affaq','abcd', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Signup 'Khizer_1007', 'Khizer','abcd', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Signup 'faf', 'aff','abcd', @Test OUT
+Select @Test
+go
+
+select * from Users
+go
+
+--2:
+create Procedure Signin
+@userid nvarchar(100),
+@password nvarchar(30),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Users where Users.userid=@userid and Users.password=@password)
+		Begin
+			set @output=1 --login Sucessful
+		End
+	else
+		Begin
+			set @output=0 --Invalid
+		End
+End
+go
+
+declare  @Test int
+exec Signin 'Qasim_1101','abcd', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Signin 'Qasim_1101','xyz', @Test OUT
+Select @Test
+go
