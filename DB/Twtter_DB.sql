@@ -106,6 +106,7 @@ Begin
 		Begin
 			Insert into Users values (@userid, @name, @password)
 			set @output=1 --Signup successfully
+			return
 		End
 End
 go
@@ -148,10 +149,12 @@ Begin
 	if exists (select * From Users where Users.userid=@userid and Users.password=@password)
 		Begin
 			set @output=1 --login Sucessful
+			return
 		End
 	else
 		Begin
 			set @output=0 --Invalid
+			return
 		End
 End
 go
@@ -165,3 +168,136 @@ declare  @Test int
 exec Signin 'Qasim_1101','xyz', @Test OUT
 Select @Test
 go
+
+--3:
+create Procedure Follow
+@userid nvarchar(100),
+@userid2 nvarchar(100),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Blocked where Blocked.userid=@userid2 and Blocked.blockedid=@userid)
+		Begin
+			set @output=0 --can't follow user2....user2 blocked user1
+			return
+		End
+	else if exists (select * From Blocked where Blocked.userid=@userid and Blocked.blockedid=@userid2)
+		Begin
+			set @output=-1 --can't follow user2....user1 blocked user2
+			return
+		End
+	else if exists (select * From Followed where Followed.followerid=@userid and Followed.followingid=@userid2)
+		Begin
+			set @output=-2 --can't follow user2....Already following
+			return
+		End
+	else
+		Begin
+			Insert into Followed values (@userid, @userid2)
+			set @output=1 --Successfully followed
+			return
+		End
+End
+go
+
+declare  @Test int
+exec Follow 'Qasim_1101','Hassan_1102', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Follow 'Qasim_1101','Khizer_1007', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Follow 'Affaq_1141','Khizer_1007', @Test OUT
+Select @Test
+go
+
+select * from Followed
+go
+
+--4:
+create Procedure UnFollow
+@userid nvarchar(100),
+@userid2 nvarchar(100),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Followed where Followed.followerid=@userid and Followed.followingid=@userid2)
+		Begin
+			Delete from Followed where Followed.followerid=@userid and Followed.followingid=@userid2
+			set @output=1 --unfollowed successful
+			return
+		End
+	else
+		Begin
+			set @output=0 --invalid...Already not following
+			return
+		End
+End
+go
+
+declare  @Test int
+exec UnFollow 'Qasim_1101','Hassan_1102', @Test OUT
+Select @Test
+go
+
+select * from Followed
+go
+
+--4:
+create Procedure Following
+@userid nvarchar(100)
+As
+Begin
+	select followingid
+	from Followed
+	where followerid=@userid
+	return
+End
+go
+
+exec Following 'Qasim_1101'
+go
+
+select * from Followed
+go
+
+--5:
+create Procedure Followers
+@userid nvarchar(100)
+As
+Begin
+	select followerid
+	from Followed
+	where followingid=@userid
+	return
+End
+go
+
+exec Followers 'Khizer_1007'
+go
+
+select * from Followed
+go
+
+--5:
+create Procedure Search
+@text nvarchar(100)
+As
+Begin
+	select Users.userid,Users.name
+	from Users
+	where CHARINDEX(@text, Users.userid)>0 or CHARINDEX(@text, Users.name)>0
+	return
+End
+go
+
+exec Search 'af'
+go
+
+select * from Users
+go
+
