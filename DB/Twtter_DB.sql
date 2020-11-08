@@ -248,12 +248,14 @@ select * from Followed
 go
 
 --4:
+drop Procedure if exists Following
+go
 create Procedure Following
 @userid nvarchar(100)
 As
 Begin
-	select followingid
-	from Followed
+	select Followed.followingid,Users.name
+	from Followed join Users on followingid=userid
 	where followerid=@userid
 	return
 End
@@ -266,12 +268,14 @@ select * from Followed
 go
 
 --5:
+drop Procedure if exists Followers
+go
 create Procedure Followers
 @userid nvarchar(100)
 As
 Begin
-	select followerid
-	from Followed
+	select Followed.followerid,Users.name
+	from Followed join Users on followerid=userid
 	where followingid=@userid
 	return
 End
