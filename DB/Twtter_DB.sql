@@ -1,5 +1,18 @@
-create database Twitter_DB
+--create database Twitter_DB
 use Twitter_DB
+
+Drop Table if exists Reply
+Drop Table if exists ReTweet
+Drop Table if exists Likes
+Drop Table if exists Bookmark
+Drop Table if exists Followed
+Drop Table if exists Blocked
+Drop Table if exists DM
+Drop Table if exists Tweet
+Drop Table if exists Users
+
+
+
 
 -->>----->> Tables <<------<<--
 Create Table Users
@@ -77,19 +90,11 @@ CONSTRAINT pk_Bookmark PRIMARY KEY (userid,tweetid)
 )
 go
 
---Drop Table Users
---Drop Table Followed
---Drop Table Blocked
---Drop Table DM
---Drop Table Tweet
---Drop Table Reply
---Drop Table ReTweet
---Drop Table Likes
---Drop Table Bookmark
-
 
 -->>----->> Procedures <<------<<--
 --1:
+drop procedure if exists Signup
+go
 create Procedure Signup
 @userid nvarchar(100),
 @name nvarchar(100),
@@ -106,7 +111,6 @@ Begin
 		Begin
 			Insert into Users values (@userid, @name, @password)
 			set @output=1 --Signup successfully
-			return
 		End
 End
 go
@@ -140,6 +144,8 @@ select * from Users
 go
 
 --2:
+drop procedure if exists Signin
+go
 create Procedure Signin
 @userid nvarchar(100),
 @password nvarchar(30),
@@ -149,12 +155,10 @@ Begin
 	if exists (select * From Users where Users.userid=@userid and Users.password=@password)
 		Begin
 			set @output=1 --login Sucessful
-			return
 		End
 	else
 		Begin
 			set @output=0 --Invalid
-			return
 		End
 End
 go
@@ -169,7 +173,11 @@ exec Signin 'Qasim_1101','xyz', @Test OUT
 Select @Test
 go
 
---3:
+
+---------------
+
+drop Procedure if exists Follow
+go
 create Procedure Follow
 @userid nvarchar(100),
 @userid2 nvarchar(100),
@@ -219,6 +227,8 @@ select * from Followed
 go
 
 --4:
+drop Procedure if exists UnFollow
+go
 create Procedure UnFollow
 @userid nvarchar(100),
 @userid2 nvarchar(100),
@@ -254,7 +264,7 @@ create Procedure Following
 @userid nvarchar(100)
 As
 Begin
-	select Followed.followingid,Users.name
+	select Followed.followingid as Username,Users.name as Name
 	from Followed join Users on followingid=userid
 	where followerid=@userid
 	return
@@ -274,7 +284,7 @@ create Procedure Followers
 @userid nvarchar(100)
 As
 Begin
-	select Followed.followerid,Users.name
+	select Followed.followerid as Username,Users.name as Name
 	from Followed join Users on followerid=userid
 	where followingid=@userid
 	return
@@ -288,20 +298,21 @@ select * from Followed
 go
 
 --5:
+drop Procedure if exists Search
+go
 create Procedure Search
 @text nvarchar(100)
 As
 Begin
-	select Users.userid,Users.name
+	select Users.userid as Username,Users.name as Name
 	from Users
 	where CHARINDEX(@text, Users.userid)>0 or CHARINDEX(@text, Users.name)>0
 	return
 End
 go
 
-exec Search 'af'
+exec Search 'as'
 go
 
 select * from Users
 go
-
