@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package project;
+package GUI;
 
 /**
  *
@@ -41,10 +41,11 @@ public class Home extends javax.swing.JFrame {
         jPanel1.setLayout(null);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabel_Home.setBackground(new java.awt.Color(51, 255, 255));
         jLabel_Home.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/icons/home (1).png"))); // NOI18N
+        jLabel_Home.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/icons/home (1).png"))); // NOI18N
         jLabel_Home.setText("Home");
         jLabel_Home.setAlignmentX(0.5F);
         jLabel_Home.setFocusable(false);
@@ -56,12 +57,12 @@ public class Home extends javax.swing.JFrame {
         jLabel_Home.setRequestFocusEnabled(false);
 
         jLabel_Bookmarks.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel_Bookmarks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/icons/bookmark.png"))); // NOI18N
+        jLabel_Bookmarks.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/icons/bookmark.png"))); // NOI18N
         jLabel_Bookmarks.setText("Bookmarks");
         jLabel_Bookmarks.setIconTextGap(30);
 
         jLabel_Profile.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel_Profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/icons/user.png"))); // NOI18N
+        jLabel_Profile.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/icons/user.png"))); // NOI18N
         jLabel_Profile.setText("Profile");
         jLabel_Profile.setIconTextGap(30);
 

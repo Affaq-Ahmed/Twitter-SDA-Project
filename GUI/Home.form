@@ -104,7 +104,7 @@
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/project/icons/home (1).png"/>
+                  <Image iconType="3" name="/GUI/icons/home (1).png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Home"/>
                 <Property name="alignmentX" type="float" value="0.5"/>
@@ -129,7 +129,7 @@
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/project/icons/bookmark.png"/>
+                  <Image iconType="3" name="/GUI/icons/bookmark.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Bookmarks"/>
                 <Property name="iconTextGap" type="int" value="30"/>
@@ -141,7 +141,7 @@
                   <Font name="Tahoma" size="14" style="1"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/project/icons/user.png"/>
+                  <Image iconType="3" name="/GUI/icons/user.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Profile"/>
                 <Property name="iconTextGap" type="int" value="30"/>

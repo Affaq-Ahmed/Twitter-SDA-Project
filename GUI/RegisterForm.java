@@ -4,10 +4,12 @@
  * and open the template in the editor.
  */
 
-package project;
+package GUI;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import sql.*;
+import TwitterGUI.*;
 
 /**
  *
@@ -48,9 +50,10 @@ public class RegisterForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/twitter-logo-svg-vector.png"))); // NOI18N
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/twitter-logo-svg-vector.png"))); // NOI18N
 
         jLabelName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabelName.setText("Name");
@@ -247,10 +250,17 @@ public class RegisterForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Enter the Password Again");
         }
         else{
-            int result=0;
-
-            if(result==0){
-                JOptionPane.showMessageDialog(null,"New User Added");
+            int Signup = SQL.user.Signup(uName, name, pass);
+            if(Signup==1){
+            Home h = new Home();
+            h.setVisible(true);
+            h.pack();
+            h.setLocationRelativeTo(null);
+            h.setExtendedState(JFrame.MAXIMIZED_BOTH);
+            this.dispose();
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane, "Invalid Credentials!! Try Again.");
             }
         }
     }//GEN-LAST:event_jButtonSignupActionPerformed
