@@ -21,9 +21,10 @@ public class SQL {
 
 public static UsersD user;
 public static TwitterDB DB;
-//public static int x;
+
     public static void main(String[] args){
         user=new UsersD();
+        DB=new TwitterDBimp();
         java.awt.EventQueue.invokeLater(() -> {
             new Login().setVisible(true);
         });
