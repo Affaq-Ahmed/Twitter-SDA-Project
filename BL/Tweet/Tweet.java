@@ -10,11 +10,15 @@ package Tweet;
  * @author HP
  */
 public class Tweet {
+
+    
     public Integer TweetId;
     public String Text;
     
     public Tweet(Integer TweetId, String Text) {
         this.TweetId = TweetId;
         this.Text = Text;
+    }
+    public Tweet() {
     }
 }
