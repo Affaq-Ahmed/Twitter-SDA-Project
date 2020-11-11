@@ -4,16 +4,22 @@
  * and open the template in the editor.
  */
 package User;
-
+import TwitterDB.*;
+import sql.*;
 /**
  *
  * @author HP
  */
 public class Users {
+
+    
     public String Username,Name;
     
     public Users(String Username, String Name) {
         this.Username = Username;
         this.Name = Name;
     }
+    public Users() {
+    }
+    
 }
