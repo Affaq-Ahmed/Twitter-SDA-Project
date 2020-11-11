@@ -13,8 +13,11 @@ import User.*;
  */
 public class Tweets extends Tweet {
     public Users User;
+    
     public Tweets(User.Users User, Integer TweetId, String Text) {
         super(TweetId, Text);
         this.User = User;
+    }
+    public Tweets() {
     }
 }
