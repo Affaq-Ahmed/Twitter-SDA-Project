@@ -6,7 +6,7 @@
 package TwitterGUI;
 
 import Message.Message;
-import Tweet.Tweet;
+
 import Tweet.Tweets;
 import User.Users;
 import User.UsersD;
@@ -20,7 +20,7 @@ public interface TwitterGUI {
     public int Signup(String Username, String Name, String Password);
     public int Login(String Username, String Password);
     public int Follow(String CUsername,String Username);
-    public ArrayList<Users> UnFollow(String CUsername,String Username);
+    public int UnFollow(String CUsername,String Username);
     public ArrayList<Users> GetFollowing(String CUsername);
     public ArrayList<Users> GetFollowers(String CUsername);
     public ArrayList<Users> GetBlockedUsers(String CUsername);
@@ -38,5 +38,5 @@ public interface TwitterGUI {
     public ArrayList<Tweets> GetReplies(Integer Tweetid);
     public ArrayList<Tweets> GetLikedTweets(String CUsername);
     public ArrayList<Users> GetLikers(Integer Tweetid);
-    public ArrayList<Tweet> GetUserTweets(String CUsername);
+    public ArrayList<Tweets> GetUserTweets(String CUsername);
 }

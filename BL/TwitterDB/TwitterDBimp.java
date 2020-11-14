@@ -6,7 +6,6 @@
 package TwitterDB;
 
 import Message.Message;
-import Tweet.Tweet;
 import Tweet.Tweets;
 import User.Users;
 import User.UsersD;
@@ -112,7 +111,7 @@ public class TwitterDBimp implements TwitterDB {
         return 0;
     }
     @Override
-    public ArrayList<Users> UnFollow(String CUsername,String Username){
+    public int UnFollow(String CUsername,String Username){
         try {
             String url = "jdbc:sqlserver://localhost;databaseName=Twitter_DB;user=sa;password=superman";// need to update with our db path
             Connection con = DriverManager.getConnection(url);
@@ -133,14 +132,12 @@ public class TwitterDBimp implements TwitterDB {
                 System.out.println("Error: failed to close the database");
             }
             
-            if(result==1){
-                return this.GetFollowing(CUsername);
-            }
+            return result;
             
         } catch (SQLException e) {
             System.out.println("Error: Failed to connect to database\n" + e.getMessage());
         }
-        return null;
+        return 0;
     }
     @Override
     public ArrayList<Users> GetFollowing(String CUsername){
@@ -660,7 +657,7 @@ public class TwitterDBimp implements TwitterDB {
         return null;
     }
     @Override
-    public ArrayList<Tweet> GetUserTweets(String CUsername){
+    public ArrayList<Tweets> GetUserTweets(String CUsername){
         try {
             String url = "jdbc:sqlserver://localhost;databaseName=Twitter_DB;user=superman;password=superman123";// need to update with our db path
             Connection con = DriverManager.getConnection(url);
@@ -670,9 +667,9 @@ public class TwitterDBimp implements TwitterDB {
             stmt.execute();
             
             ResultSet rs=stmt.getResultSet();
-            ArrayList<Tweet> Usertweets = new ArrayList<>();
+            ArrayList<Tweets> Usertweets = new ArrayList<>();
             while(rs.next()){
-                Usertweets.add(new Tweet(rs.getInt("Tweetid"),rs.getString("Text")));
+                Usertweets.add(new Tweets(new Users(rs.getString("Username"),rs.getString("Name")),rs.getInt("Tweetid"),rs.getString("Text")));
             }
 
             try{

@@ -18,7 +18,7 @@ public interface TwitterDB {
     public int Signup(UsersD user);
     public int Login(UsersD user);
     public int Follow(String CUsername,String Username);
-    public ArrayList<Users> UnFollow(String CUsername,String Username);
+    public int UnFollow(String CUsername,String Username);
     public ArrayList<Users> GetFollowing(String CUsername);
     public ArrayList<Users> GetFollowers(String CUsername);
     public ArrayList<Users> GetBlockedUsers(String CUsername);
@@ -36,5 +36,5 @@ public interface TwitterDB {
     public ArrayList<Tweets> GetReplies(Integer Tweetid);
     public ArrayList<Tweets> GetLikedTweets(String CUsername);
     public ArrayList<Users> GetLikers(Integer Tweetid);
-    public ArrayList<Tweet> GetUserTweets(String CUsername);
+    public ArrayList<Tweets> GetUserTweets(String CUsername);
 }

@@ -6,7 +6,6 @@
 package User;
 
 import Message.Message;
-import Tweet.Tweet;
 import Tweet.Tweets;
 import TwitterGUI.TwitterGUI;
 import java.util.ArrayList;
@@ -44,7 +43,7 @@ public class UsersD extends Users implements TwitterGUI  {
         return Follow;
     }
     @Override
-    public ArrayList<Users> UnFollow(String CUsername,String Username){
+    public int UnFollow(String CUsername,String Username){
         return SQL.DB.UnFollow(CUsername, Username);
         
     }
@@ -117,7 +116,8 @@ public class UsersD extends Users implements TwitterGUI  {
         return SQL.DB.GetLikers(Tweetid);        
     }
     @Override
-    public ArrayList<Tweet> GetUserTweets(String CUsername){
+    public ArrayList<Tweets> GetUserTweets(String CUsername){
         return SQL.DB.GetUserTweets(CUsername);
     }
+
 }
