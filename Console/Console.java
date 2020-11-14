@@ -5,6 +5,8 @@
  */
 package Console;
 
+import Message.Message;
+import Tweet.Tweets;
 import java.io.IOException;
 import java.util.Scanner;
 import TwitterGUI.*;
@@ -26,7 +28,65 @@ public class Console {
             switch (x) {
                 case "1" -> Login();
                 case "2" -> Signup();
-                default -> System.out.println("\nSorry Invalid option. Try again!!\n");
+                default -> {
+                    System.out.println("\nSorry Invalid option. Try again!!\n");
+                }
+            }
+        }
+    }
+    public static void Menu(){
+        String x; 
+        while(true){
+            System.out.println("1.Search\n2.Follow User\n3.UnFollow User\n4.Block User"
+                    + "\n5.Add a Tweet\n6.See Followers\n7.See following\n8.See Blocked Users"
+                    + "\n9.View Tweets\n10.View Liked Tweets\n11.View Bookmarked Tweets\n12.Open Chat"
+                            + "\nSelect Option : ");
+            x= scanner. nextLine();
+            switch (x) {
+                case "1" -> Search();
+                case "2" -> Follow();
+                case "3" -> UnFollow();
+                case "4" -> BlockUser();
+                case "5" -> Tweet();
+                case "6" -> GetFollowers();
+                case "7" -> GetFollowing();
+                case "8" -> GetBlockedUsers();
+                case "9" ->{
+                int GetUserTweets = GetUserTweets();
+                if(GetUserTweets==1)
+                    Tweetmenu();
+                }
+                case "10" ->{ 
+                int GetLikedTweets = GetLikedTweets();
+                if(GetLikedTweets==1)
+                    Tweetmenu();
+                }
+                case "11" ->{
+                int GetBookmarkedTweets = GetBookmarkedTweets();
+                if(GetBookmarkedTweets==1)
+                    Tweetmenu();
+                }
+                case "12" -> OpenChat();
+                default -> System.out.println("\nSorry Invalid option. Try again!!");
+            }
+        }
+    }
+    public static void Tweetmenu(){
+        String x=""; 
+        while(true&&x!="7"){
+            System.out.println("1.Like Tweet\n2.Retweet\n3.Reply\n4.Bookmark Tweet"
+                    + "\n5.View Replies\n6.View Likers\n7.Main menu\n"
+                            + "\nSelect Option : ");
+            x= scanner. nextLine();
+            switch (x) {
+                case "1" -> Liketweet();
+                case "2" -> ReTweet();
+                case "3" -> Reply();
+                case "4" -> Bookmarktweet();
+                case "5" -> GetReplies();
+                case "6" -> GetLikers();
+                case "7" -> {}
+                default -> System.out.println("\nSorry Invalid option. Try again!!");
             }
         }
     }
@@ -60,37 +120,298 @@ public class Console {
             Startup();
         }
     }
-    public static void Menu(){
-        String x; 
-        while(true){
-            System.out.println("1.Search\n2.Follow\n3.UnFollow    \nSelect Option : ");
-            x= scanner. nextLine();
-            switch (x) {
-                case "1" -> Search();
-                case "2" -> Follow();
-                case "3" -> UnFollow();
-                default -> System.out.println("\nSorry Invalid option. Try again!!");
-            }
-        }
-    }
     private static void Search() {
         System.out.println("Enter : ");
         String x; 
         x= scanner.nextLine();
         ArrayList<Users> users=SQL.user.Search(x);
-        for(int i=0;i<users.size();i++)
-        System.out.println("Username: "+users.get(i).Username+" , Name: "+users.get(i).Name);
+        if(users==null)
+            System.out.println("\nInvalid");
+        else{
+            if(users.isEmpty())
+                System.out.println("\nNo Results Found!");
+            for(int i=0;i<users.size();i++)
+                System.out.println("Username: "+users.get(i).Username+" , Name: "+users.get(i).Name);
+        }
     }
     private static void Follow() {
         System.out.println("Enter Username : ");
         String x; 
         x= scanner.nextLine();
-        SQL.user.Follow(SQL.user.Username,x);
+        int Follow = SQL.user.Follow(SQL.user.Username,x);
+        switch (Follow) {
+                case 0 -> System.out.println("\nSorry Either "+x+" has Blocked you. or User doesnot Exist!");
+                case -1 -> System.out.println("\nSorry You have Blocked "+x);
+                case -2 -> System.out.println("\nSorry You are already following "+x);
+                case 1 -> System.out.println("\nSuccessfully Followed!!");
+            }
     }
     private static void UnFollow() {
         System.out.println("Enter Username : ");
         String x; 
         x= scanner.nextLine();
-        SQL.user.UnFollow(SQL.user.Username,x);
+        int UnFollow = SQL.user.UnFollow(SQL.user.Username,x);
+        switch (UnFollow) {
+                case 0 -> System.out.println("\nSorry you are not following or user does not exist"+x);
+                case 1 -> System.out.println("\nSuccessfully Unfollowed!!");
+            }
+    }
+    private static void BlockUser() {
+        System.out.println("Enter Username : ");
+        String x; 
+        x= scanner.nextLine();
+        int Block = SQL.user.Block(SQL.user.Username,x);
+        switch (Block) {
+                case 0 -> System.out.println("\nSorry you have already Blocked "+x);
+                case 1 -> System.out.println("\nSuccessfully Blocked!!");
+            }
+    }
+    private static void ReTweet() {
+        System.out.println("Enter Tweetid : ");
+        String Tid;
+        Tid= scanner.nextLine();
+        System.out.println("Enter Text : ");
+        String x;
+        x= scanner.nextLine();
+        int Retweet = SQL.user.Retweet(Integer.parseInt(Tid),SQL.user.Username,x);
+        switch (Retweet) {
+                case 0 -> System.out.println("\nSorry Retweet failed.");
+                case 1 -> System.out.println("\nSuccessfully Retweeted!!");
+            }
+    }
+    private static void Tweet() {
+        System.out.println("Enter Text : ");
+        String x;
+        x= scanner.nextLine();        
+        int Tweet = SQL.user.Tweet(SQL.user.Username,x);
+        switch (Tweet) {
+                case 0 -> System.out.println("\nSorry Tweet failed.");
+                case 1 -> System.out.println("\nSuccessfully Tweeted!!");
+            }
+    }
+    private static void GetFollowers(){
+        System.out.println("Enter M(for my followers) Or Username : ");
+        String Username;
+        Username= scanner.nextLine();
+        if(Username=="M"||Username=="m")
+            Username=SQL.user.Username;
+        ArrayList<Users> GetFollowers = SQL.user.GetFollowers(Username);
+        if(GetFollowers==null)
+            System.out.println("\nInvalid username.");
+        else{
+            if(GetFollowers.isEmpty())
+                System.out.println("\n Empty");
+            for(int i=0;i<GetFollowers.size();i++)
+            {
+                System.out.println(i+1 + ". "+ GetFollowers.get(i).Name +"("+GetFollowers.get(i).Username+")\n");
+            }
+        }
+    }
+    private static void GetFollowing(){
+        System.out.println("Enter M(for my followers) Or Username : ");
+        String Username;
+        Username= scanner.nextLine();
+        if(Username=="M"||Username=="m")
+            Username=SQL.user.Username;
+        ArrayList<Users> GetFollowing = SQL.user.GetFollowing(Username);
+        if(GetFollowing==null)
+            System.out.println("\nInvalid username.");
+        else{
+            if(GetFollowing.isEmpty())
+                System.out.println("\n Empty");
+            for(int i=0;i<GetFollowing.size();i++)
+            {
+            System.out.println(i+1 + ". "+ GetFollowing.get(i).Name +"("+GetFollowing.get(i).Username+")\n");
+            }
+        }
+    }
+    private static void GetBlockedUsers(){
+        ArrayList<Users> GetBlockedUsers = SQL.user.GetBlockedUsers(SQL.user.Username);
+        if(GetBlockedUsers==null)
+            System.out.println("\nInvalid.");
+        else{
+            if(GetBlockedUsers.isEmpty())
+                System.out.println("\n Empty");
+            for(int i=0;i<GetBlockedUsers.size();i++)
+            {
+                System.out.println(i+1 + ". "+ GetBlockedUsers.get(i).Name +"("+GetBlockedUsers.get(i).Username+")\n");
+            }
+        }
+    }
+    private static void Liketweet(){
+        System.out.println("Enter TweetId : ");
+        String x; 
+        x= scanner.nextLine();
+        int Like = SQL.user.Like(SQL.user.Username,Integer.parseInt(x));
+        switch (Like) {
+                case 0 -> System.out.println("\nUnliked the Tweet. Was already liked.");
+                case 1 -> System.out.println("\nSuccessfully Liked!!");
+            }
+    }
+    private static void Bookmarktweet(){
+        System.out.println("Enter TweetId : ");
+        String x; 
+        x= scanner.nextLine();
+        int Like = SQL.user.Bookmark(SQL.user.Username,Integer.parseInt(x));
+        switch (Like) {
+                case 0 -> System.out.println("\nRemoved from Bookmarks. Was already Bookmarked.");
+                case 1 -> System.out.println("\nSuccessfully Bookmarked!!");
+            }
+    }
+    private static void Reply() {
+        System.out.println("Enter Tweetid : ");
+        String Tid;
+        Tid= scanner.nextLine();
+        System.out.println("Enter Text : ");
+        String x;
+        x= scanner.nextLine();
+        int Reply = SQL.user.Reply(SQL.user.Username,Integer.parseInt(Tid),x);
+        switch (Reply) {
+                case 0 -> System.out.println("\nSorry!! Reply failed.");
+                case 1 -> System.out.println("\nSuccessfully Replied!!");
+            }
+    }
+    private static void DirectMessage(String User){
+        if(User==null){
+            System.out.println("Enter Username : ");
+            User= scanner.nextLine();
+        }
+        System.out.println("Enter Text : ");
+        String x;
+        x= scanner.nextLine();
+        int Dm = SQL.user.Dm(SQL.user.Username,User,x);
+        switch (Dm) {
+                case 0 -> System.out.println("\nSorry!! Direct message failed.");
+                case 1 -> System.out.println("\nSuccessfully Sent!!");
+            }
+    }
+    private static void OpenChat(){
+        System.out.println("Enter Username : ");
+        String Username;
+        Username= scanner.nextLine();
+        ArrayList<Message> Chat = SQL.user.Chat(SQL.user.Username,Username);
+        if(Chat==null)
+            System.out.println("\nInvalid username.");
+        else{
+            if(Chat.isEmpty()){
+                System.out.println("\n Empty");
+            }
+            for(int i=0;i<Chat.size();i++)
+            {
+                System.out.println("Sender: "+ Chat.get(i).Sender.Name +" --- Receiver: "+Chat.get(i).Receiver.Name+")\n");
+                System.out.println("Message : "+ Chat.get(i).Text+"\n\n");
+            }
+            String x="";
+            while(true&&x!="2"){
+                System.out.println("1.Send Message\n2.Close Chat"
+                                + "\nSelect Option : ");
+                x= scanner. nextLine();
+                switch (x) {
+                    case "1" -> DirectMessage(Username);
+                    case "2" -> {}
+                    default -> {
+                        System.out.println("\nSorry Invalid option. Try again!!\n");
+                    }
+                }           
+            }
+        }
+    }
+    private static int GetBookmarkedTweets(){
+        ArrayList<Tweets> GetBookmarks = SQL.user.GetBookmarks(SQL.user.Username);
+        if(GetBookmarks==null)
+            System.out.println("\nInvalid");
+        else{
+            if(GetBookmarks.isEmpty()){
+                System.out.println("\n Empty");
+                return 0;
+            }
+            for(int i=0;i<GetBookmarks.size();i++)
+            {
+                System.out.println("Name: "+ GetBookmarks.get(i).User.Name +" --- Username: "+GetBookmarks.get(i).User.Username+")\n");
+                System.out.println("TweetID: "+GetBookmarks.get(i).TweetId+"\nText : "+ GetBookmarks.get(i).Text+"\n\n");
+            }
+            return 1;
+        }
+        return 0;
+    }
+    private static int GetLikedTweets(){
+        System.out.println("Enter M(for my LikedTweets) Or Username : ");
+        String Username;
+        Username= scanner.nextLine();
+        if(Username=="M"||Username=="m")
+            Username=SQL.user.Username;
+        ArrayList<Tweets> GetLikedTweets = SQL.user.GetLikedTweets(Username);
+        if(GetLikedTweets==null)
+            System.out.println("\nInvalid");
+        else{
+            if(GetLikedTweets.isEmpty()){
+                System.out.println("\n Empty");
+                return 0;
+            }
+            for(int i=0;i<GetLikedTweets.size();i++)
+            {
+                System.out.println("Name: "+ GetLikedTweets.get(i).User.Name +" --- Username: "+GetLikedTweets.get(i).User.Username+")\n");
+                System.out.println("TweetID: "+GetLikedTweets.get(i).TweetId+"\nText : "+ GetLikedTweets.get(i).Text+"\n\n");
+            }
+            return 1;
+        }
+        return 0;
+    }
+    private static void GetReplies(){
+        System.out.println("Enter TweetID : ");
+        String Tid;
+        Tid = scanner.nextLine();
+        ArrayList<Tweets> GetReplies = SQL.user.GetReplies(Integer.parseInt(Tid));
+        if(GetReplies==null)
+            System.out.println("\nInvalid");
+        else{
+            if(GetReplies.isEmpty())
+                System.out.println("\n Empty");
+            for(int i=0;i<GetReplies.size();i++)
+            {
+                System.out.println("Name: "+ GetReplies.get(i).User.Name +" --- Username: "+GetReplies.get(i).User.Username+")\n");
+                System.out.println("TweetID: "+GetReplies.get(i).TweetId+"\nText : "+ GetReplies.get(i).Text+"\n\n");
+            }
+        }
+    }
+    private static int GetUserTweets(){
+        System.out.println("Enter M(for my Tweets) Or Username : ");
+        String Username;
+        Username= scanner.nextLine();
+        if(Username=="M"||Username=="m")
+            Username=SQL.user.Username;
+        ArrayList<Tweets> GetUserTweets = SQL.user.GetUserTweets(Username);
+        if(GetUserTweets==null)
+            System.out.println("\nInvalid");
+        else{
+            if(GetUserTweets.isEmpty())
+            {
+                System.out.println("\n Empty");
+                return 0;
+            }
+            for(int i=0;i<GetUserTweets.size();i++)
+            {
+                System.out.println("Name: "+ GetUserTweets.get(i).User.Name +" --- Username: "+GetUserTweets.get(i).User.Username+")\n");
+                System.out.println("TweetID: "+GetUserTweets.get(i).TweetId+"\nText : "+ GetUserTweets.get(i).Text+"\n\n");
+            }
+            return 1;
+        }
+        return 0;
+    }
+    private static void GetLikers(){
+        System.out.println("Enter TweetID : ");
+        String TweetID;
+        TweetID= scanner.nextLine();
+        ArrayList<Users> GetFollowers = SQL.user.GetLikers(Integer.parseInt(TweetID));
+        if(GetFollowers==null)
+            System.out.println("\nInvalid username.");
+        else{
+            if(GetFollowers.isEmpty())
+                System.out.println("\n Empty");
+            for(int i=0;i<GetFollowers.size();i++)
+            {
+                System.out.println(i+1 + ". "+ GetFollowers.get(i).Name +"("+GetFollowers.get(i).Username+")\n");
+            }
+        }
     }
 }
