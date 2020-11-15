@@ -91,10 +91,10 @@ public class UsersD extends Users implements TwitterGUI  {
     public ArrayList<Users> Search(String Text){
         return SQL.DB.Search(Text);        
     }
-    @Override
-    public ArrayList<Tweets> HomeTweets(String CUsername){
-        return SQL.DB.HomeTweets(CUsername);        
-    }
+//    @Override
+//    public ArrayList<Tweets> HomeTweets(String CUsername){
+//        return SQL.DB.HomeTweets(CUsername);        
+//    }
     @Override
     public ArrayList<Message> Chat(String CUsername,String Username){
         return SQL.DB.Chat(CUsername, Username);        
@@ -119,5 +119,8 @@ public class UsersD extends Users implements TwitterGUI  {
     public ArrayList<Tweets> GetUserTweets(String CUsername){
         return SQL.DB.GetUserTweets(CUsername);
     }
-
+    @Override
+    public String GetName(String Username){
+        return SQL.user.Name;
+    }
 }

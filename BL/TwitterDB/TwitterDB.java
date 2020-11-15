@@ -30,11 +30,12 @@ public interface TwitterDB {
     public int Reply(String CUsername,Integer TweetId,String Text);
     public int Dm(String CUsername,String Username,String Text);
     public ArrayList<Users> Search(String Text);
-    public ArrayList<Tweets> HomeTweets(String CUsername);
+//    public ArrayList<Tweets> HomeTweets(String CUsername);
     public ArrayList<Message> Chat(String CUsername,String Username);
     public ArrayList<Tweets> GetBookmarks(String CUsername);
     public ArrayList<Tweets> GetReplies(Integer Tweetid);
     public ArrayList<Tweets> GetLikedTweets(String CUsername);
     public ArrayList<Users> GetLikers(Integer Tweetid);
     public ArrayList<Tweets> GetUserTweets(String CUsername);
+    public String GetName(String Username);
 }
