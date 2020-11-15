@@ -20,6 +20,10 @@ public class RegisterForm extends javax.swing.JFrame {
     /** Creates new form RegisterForm */
     public RegisterForm() {
         initComponents();
+        jLabel_1.setVisible(false);
+        jLabel_2.setVisible(false);
+        jLabel_3.setVisible(false);
+        jLabel_4.setVisible(false);
     }
 
     /** This method is called from within the constructor to
@@ -46,6 +50,10 @@ public class RegisterForm extends javax.swing.JFrame {
         jPasswordField = new javax.swing.JPasswordField();
         jLabelUsername = new javax.swing.JLabel();
         jTextFieldUsername = new javax.swing.JTextField();
+        jLabel_1 = new javax.swing.JLabel();
+        jLabel_2 = new javax.swing.JLabel();
+        jLabel_3 = new javax.swing.JLabel();
+        jLabel_4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -53,7 +61,7 @@ public class RegisterForm extends javax.swing.JFrame {
         jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jLabelLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/twitter-logo-svg-vector.png"))); // NOI18N
+        jLabelLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/project/twitter-logo-svg-vector.png"))); // NOI18N
 
         jLabelName.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabelName.setText("Name");
@@ -65,6 +73,7 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
+        jTextFieldHeading.setEditable(false);
         jTextFieldHeading.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jTextFieldHeading.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldHeading.setText("Create Your Account");
@@ -148,6 +157,22 @@ public class RegisterForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel_1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_1.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel_1.setText("*");
+
+        jLabel_2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_2.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel_2.setText("*");
+
+        jLabel_3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_3.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel_3.setText("*");
+
+        jLabel_4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel_4.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel_4.setText("*");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -173,7 +198,13 @@ public class RegisterForm extends javax.swing.JFrame {
                     .addComponent(jLabelRePass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextFieldUsername)
                     .addComponent(jLabelUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel_1)
+                    .addComponent(jLabel_2)
+                    .addComponent(jLabel_3)
+                    .addComponent(jLabel_4))
+                .addContainerGap(174, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,19 +220,27 @@ public class RegisterForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelName)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldName, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelUsername)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_2, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelPass, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelRePass, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordFieldRe, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPasswordFieldRe, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_4, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButtonSignup, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -238,13 +277,16 @@ public class RegisterForm extends javax.swing.JFrame {
         String pass=String.valueOf(jPasswordField.getPassword());
         String rePass=String.valueOf(jPasswordFieldRe.getPassword());
         if(name.equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Name");
+            jLabel_1.setVisible(true);
         }
         else if(uName.equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Username");
+            jLabel_2.setVisible(true);
         }
         else if(pass.equals("")){
-            JOptionPane.showMessageDialog(null, "Enter Password");
+            jLabel_3.setVisible(true);
+        }
+        else if(rePass.equals("")){
+            jLabel_4.setVisible(true);
         }
         else if(!rePass.equals(pass)){
             JOptionPane.showMessageDialog(null, "Enter the Password Again");
@@ -252,7 +294,7 @@ public class RegisterForm extends javax.swing.JFrame {
         else{
             int Signup = SQL.user.Signup(uName, name, pass);
             if(Signup==1){
-            Home h = new Home();
+            Home h = new Home(uName);
             h.setVisible(true);
             h.pack();
             h.setLocationRelativeTo(null);
@@ -301,37 +343,7 @@ public class RegisterForm extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(RegisterForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new RegisterForm().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSignup;
@@ -343,6 +355,10 @@ public class RegisterForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPass;
     private javax.swing.JLabel jLabelRePass;
     private javax.swing.JLabel jLabelUsername;
+    private javax.swing.JLabel jLabel_1;
+    private javax.swing.JLabel jLabel_2;
+    private javax.swing.JLabel jLabel_3;
+    private javax.swing.JLabel jLabel_4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField;
     private javax.swing.JPasswordField jPasswordFieldRe;

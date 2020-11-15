@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package GUI;
+import Tweet.Tweets;
 import User.Users;
 import static java.time.Clock.system;
 import java.util.*;
@@ -12,24 +13,42 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import javax.swing.plaf.synth.Region;
+import javax.swing.table.DefaultTableModel;
 import sql.SQL;
 
 /**
  *
  * @author aaawa
  */
-public class Home extends javax.swing.JFrame {
+public class TweetPage extends javax.swing.JFrame {
 
     /**
-     * Creates new form Home
-     * @param userid
+     * Creates new form TweetPage
      */
-    public Home(String userid) {
+    List<Tweets> tweets;
+    public TweetPage(String userid,String display,String type) {
         initComponents();
         
         jLabel_username.setText(userid);
         String Name = SQL.user.GetName(userid);
         jLabel_Name.setText(Name);
+        
+        if(type.equals("Likes")){
+            tweets = SQL.user.GetLikedTweets(display);
+        }
+        else if(type.equals("Tweets")){
+            tweets = SQL.user.GetUserTweets(display);
+        }
+        else if(type.equals("Replies")){
+            int tweetid=Integer.valueOf(display);
+            tweets = SQL.user.GetReplies(tweetid);
+        }
+        tweets = SQL.user.GetBookmarks(userid);
+        DefaultTableModel model = (DefaultTableModel)jTable_tweets.getModel();
+        
+        for(int i = 0; i < tweets.size(); i++){
+            model.addRow(new Object[]{tweets.get(i).User.Name,tweets.get(i).Text,tweets.get(i).TweetId});
+        }
     }
 
     /**
@@ -49,16 +68,16 @@ public class Home extends javax.swing.JFrame {
         jButton_Tweet = new javax.swing.JButton();
         jLabel_Name = new javax.swing.JLabel();
         jLabel_username = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         jTextField1 = new javax.swing.JTextField();
         jButton_Search = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable_tweets = new javax.swing.JTable();
+        jLabel_Tweet = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
@@ -198,35 +217,76 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTable_tweets.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Name", "Tweet Text"
+            }
+        ));
+        jTable_tweets.setFillsViewportHeight(true);
+        jTable_tweets.setRowHeight(50);
+        jTable_tweets.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_tweetsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable_tweets);
+        if (jTable_tweets.getColumnModel().getColumnCount() > 0) {
+            jTable_tweets.getColumnModel().getColumn(0).setMinWidth(100);
+            jTable_tweets.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jTable_tweets.getColumnModel().getColumn(0).setMaxWidth(300);
+        }
+
+        jLabel_Tweet.setBackground(new java.awt.Color(25, 181, 254));
+        jLabel_Tweet.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel_Tweet.setForeground(new java.awt.Color(25, 181, 254));
+        jLabel_Tweet.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_Tweet.setText("Tweets");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(120, 120, 120)
-                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 690, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 603, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(202, 202, 202)
+                                .addComponent(jLabel_Tweet, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel_Tweet, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -243,22 +303,10 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_TweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_TweetActionPerformed
-        // TODO add your handling code here:
-        String userid = jLabel_username.getText();
-        
-        Tweet t= new Tweet(userid);
-        t.setVisible(true);
-        t.pack();
-        t.setLocationRelativeTo(null);
-        t.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //this.dispose();
-    }//GEN-LAST:event_jButton_TweetActionPerformed
-
     private void jLabel_BookmarksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_BookmarksMouseClicked
         // TODO add your handling code here:
         String userid = jLabel_username.getText();
-        
+
         Bookmarks bm = new Bookmarks(userid);
         bm.setVisible(true);
         bm.pack();
@@ -271,7 +319,7 @@ public class Home extends javax.swing.JFrame {
     private void jLabel_ProfileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_ProfileMouseClicked
         // TODO add your handling code here:
         String userid = jLabel_username.getText();
-        
+
         Profile p = new Profile(userid);
         p.setVisible(true);
         p.pack();
@@ -280,6 +328,23 @@ public class Home extends javax.swing.JFrame {
         //p.setDefaultCloseOperation(JFrame.MAXIMIZED_BOTH);
         this.dispose();
     }//GEN-LAST:event_jLabel_ProfileMouseClicked
+
+    private void jButton_TweetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_TweetActionPerformed
+        // TODO add your handling code here:
+        String userid = jLabel_username.getText();
+
+        Tweet t= new Tweet(userid);
+        t.setVisible(true);
+        t.pack();
+        t.setLocationRelativeTo(null);
+        t.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //this.dispose();
+    }//GEN-LAST:event_jButton_TweetActionPerformed
+
+    private void jTextField1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseEntered
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTextField1MouseEntered
 
     private void jButton_SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SearchActionPerformed
         // TODO add your handling code here:
@@ -297,15 +362,30 @@ public class Home extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton_SearchActionPerformed
 
-    private void jTextField1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseEntered
+    private void jTable_tweetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_tweetsMouseClicked
         // TODO add your handling code here:
+        String userid = jLabel_username.getText();
+        int rowindex = jTable_tweets.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel)jTable_tweets.getModel();
+        Tweets t = null;
         
-    }//GEN-LAST:event_jTextField1MouseEntered
+        int tweet = (int) model.getValueAt(rowindex, 2);
+        
+        for(int i=0; i<tweets.size();i++){
+            if(tweet == tweets.get(i).TweetId){
+                t=tweets.get(i);
+            }
+        }
+        
+        Show_Tweet p = new Show_Tweet(userid,t);
+        p.setVisible(true);
+        p.pack();
+        p.setLocationRelativeTo(null);
+        p.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //p.setDefaultCloseOperation(JFrame.MAXIMIZED_BOTH);
+        this.dispose();
+    }//GEN-LAST:event_jTable_tweetsMouseClicked
 
-    /**
-     //* @param args the command line arguments
-     */
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Search;
@@ -314,12 +394,13 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_Home;
     private javax.swing.JLabel jLabel_Name;
     private javax.swing.JLabel jLabel_Profile;
+    private javax.swing.JLabel jLabel_Tweet;
     private javax.swing.JLabel jLabel_username;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable_tweets;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }
