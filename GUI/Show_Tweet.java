@@ -508,15 +508,14 @@ public class Show_Tweet extends javax.swing.JFrame {
         // TODO add your handling code here:
         String userid = jLabel_username.getText();
         String tweetid = jLabel_Tweetid.getText();
-        String type = "Replies";
         
-        Replies tp = new Replies(userid,tweetid,type);
+        Replies tp = new Replies(userid,tweetid);
         tp.setVisible(true);
         tp.pack();
         tp.setLocationRelativeTo(null);
-        tp.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //tp.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //tp.setDefaultCloseOperation(JFrame.MAXIMIZED_BOTH);
-        this.dispose();
+        //this.dispose();
     }//GEN-LAST:event_jButton_ReplyActionPerformed
 
     private void jLabel_NumberofLikesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_NumberofLikesMouseClicked

@@ -59,6 +59,7 @@ public class UserProfile extends javax.swing.JFrame {
         jLabel_Username = new javax.swing.JLabel();
         jLabel_Followers = new javax.swing.JLabel();
         jLabel_Following = new javax.swing.JLabel();
+        jButton_Message = new javax.swing.JButton();
         jButton_Tweets = new javax.swing.JButton();
         jButton_Likes = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
@@ -210,6 +211,19 @@ public class UserProfile extends javax.swing.JFrame {
         jPanel21.add(jLabel_Following);
         jLabel_Following.setBounds(370, 80, 130, 30);
 
+        jButton_Message.setBackground(new java.awt.Color(255, 255, 255));
+        jButton_Message.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jButton_Message.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_Message.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/icons/iconfinder_Mail_613533 (1).png"))); // NOI18N
+        jButton_Message.setBorder(null);
+        jButton_Message.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_MessageActionPerformed(evt);
+            }
+        });
+        jPanel21.add(jButton_Message);
+        jButton_Message.setBounds(580, 20, 60, 50);
+
         jButton_Tweets.setBackground(new java.awt.Color(25, 181, 254));
         jButton_Tweets.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton_Tweets.setForeground(new java.awt.Color(255, 255, 255));
@@ -254,7 +268,7 @@ public class UserProfile extends javax.swing.JFrame {
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 443, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addComponent(jButton_Search, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,26 +321,25 @@ public class UserProfile extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(21, 21, 21)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jButton_UnFollow, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(66, 66, 66)
+                                        .addGap(63, 63, 63)
                                         .addComponent(jButton_Block, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(jButton_Tweets, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
                                             .addComponent(jButton_Likes, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton_Follow, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jPanel21, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton_Follow, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -538,12 +551,18 @@ public class UserProfile extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel_FollowersMouseClicked
 
+    private void jButton_MessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_MessageActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton_MessageActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Block;
     private javax.swing.JButton jButton_Follow;
     private javax.swing.JButton jButton_Likes;
+    private javax.swing.JButton jButton_Message;
     private javax.swing.JButton jButton_Search;
     private javax.swing.JButton jButton_Tweet11;
     private javax.swing.JButton jButton_Tweets;

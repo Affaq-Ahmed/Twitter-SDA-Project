@@ -26,11 +26,14 @@ public class Replies extends javax.swing.JFrame {
     /**
      * Creates new form Replies
      */
-    public Replies(String display) {
+    List<Tweets> tweets;
+    String username;
+    public Replies(String userid,String display) {
         initComponents();
         
         int tweetid=Integer.valueOf(display);
         tweets = SQL.user.GetReplies(tweetid);
+        username=userid;
         
         tweets = SQL.user.GetBookmarks(userid);
         DefaultTableModel model = (DefaultTableModel)jTable_tweets.getModel();
@@ -129,7 +132,7 @@ public class Replies extends javax.swing.JFrame {
 
     private void jTable_tweetsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_tweetsMouseClicked
         // TODO add your handling code here:
-        String userid = jLabel_username.getText();
+        String userid = username;
         int rowindex = jTable_tweets.getSelectedRow();
         DefaultTableModel model = (DefaultTableModel)jTable_tweets.getModel();
         Tweets t = null;
