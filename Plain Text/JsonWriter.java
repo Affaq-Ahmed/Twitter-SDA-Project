@@ -143,10 +143,7 @@ writer.flush();
 
 		 
 		
-		 
-		
-		
-		
+	
 		
 		
 		
@@ -526,86 +523,88 @@ return -1;
 
 /*
 
-//public ArrayList<Users> GetFollowing(String CUsername)
-				{ArrayList<Users> arr = new ArrayList<>();
-				JSONParser jsonparser=new JSONParser();
+//public ArrayList<Users> GetFollowing(String CUsername)throws IOException, ParseException
+				{	
+		ArrayList<Users> arr = new ArrayList<>();
+		JSONParser jsonparser=new JSONParser();
 
-				FileReader reader=new FileReader("File.json");
-				Object obj=jsonparser.parse(reader);
-				//System.out.println("OBJ : "+obj );
+		FileReader reader=new FileReader("File.json");
+		Object obj=jsonparser.parse(reader);
+		//System.out.println("OBJ : "+obj );
 
-				JSONObject jobj=(JSONObject)obj;
-				//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
+		JSONObject jobj=(JSONObject)obj;
+		//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
 
-				//System.out.println(jobj+ "\nsize" + jobj.size() );
-			
-				//String name=user.Username;
-				jobj=(JSONObject)jobj.get(CUsername);
-				//System.out.println("User : "+jobj );
-				//users doesnt exist for login
-				if(jobj==null) //user doesnt even exist ,exit function
-				{
-					return null; //user doesnt exist ..
-				//	System.out.println("User doesnt exist" );
-
-					}
-				else//user exists now check for follow
-				{
-					FileReader reader1=new FileReader("Users.json");
-					Object uobj=jsonparser.parse(reader1);//to get the "Name" from users file
-					JSONObject user_jobj=(JSONObject)uobj;
-					//System.out.println("USer FILE"+user_jobj );
-
-					JSONArray array=(JSONArray)jobj.get("Following");
-				
-					if(array.size()<1) {
-						return null;
-						//System.out.println("This user is not following anyone");
-					}
-					else
-					{
-					for(int i=0;i<array.size();i++)
-					{
-
-						String following=(String)array.get(i);//will get the followings in  number
-						//System.out.println("Following var : "+following );
-
-					JSONObject	tuser_jobj=(JSONObject)user_jobj.get(following);
-						
-						if(tuser_jobj!=null) {
-					//	System.out.println("USer follow"+tuser_jobj );
-
-						String name=(String)tuser_jobj.get("Name");
-					//	System.out.println("USer string"+name );
-
-											
-						Users u;
-						u.Name=name;
-						u.Username=following;
-						arr.add(u);
-								
-						//arr.add(name);
-						}
-						//ArrayList<Users> arr = new ArrayList<>();
-				
-					}
-					//System.out.println("RESULT");
-				//	for(int i=0;i<array.size();i++)
-			//	{
-				//	String x =arr.get(i);
-			//	System.out.println(x);
-		//			}
-		
+		//System.out.println(jobj+ "\nsize" + jobj.size() );
 	
+		//String name=user.Username;
+		jobj=(JSONObject)jobj.get(CUsername);
+		//System.out.println("User : "+jobj );
+		//users doesnt exist for login
+		if(jobj==null) //user doesnt even exist ,exit function
+		{
+			return null; //user doesnt exist ..
+		//	System.out.println("User doesnt exist" );
+
+			}
+		else//user exists now check for follow
+		{
+			FileReader reader1=new FileReader("Users.json");
+			Object uobj=jsonparser.parse(reader1);//to get the "Name" from users file
+			JSONObject user_jobj=(JSONObject)uobj;
+			//System.out.println("USer FILE"+user_jobj );
+
+			JSONArray array=(JSONArray)jobj.get("Following");
+		
+			if(array.size()<1) {
+				return null;
+				//System.out.println("This user is not following anyone");
+			}
+			else
+			{
+				for(int i=0;i<array.size();i++)
+				{
+
+					String following=(String)array.get(i);//will get the followings in  number
+					//System.out.println("Following var : "+following );
+	if(following.equals("#Following"))
+	{
+		array.remove(i);
+	}
+				}
+			
+			for(int i=0;i<array.size();i++)
+			{
+
+				String following=(String)array.get(i);//will get the followings in  number
+				//System.out.println("Following var : "+following );
+
+			JSONObject	tuser_jobj=(JSONObject)user_jobj.get(following);
+				
+				if(tuser_jobj!=null) {
+			//	System.out.println("USer follow"+tuser_jobj );
+
+				String name=(String)tuser_jobj.get("Name");
+			//	System.out.println("USer string"+name );
+
+									
+				Users u;
+				u.Name=name;
+				u.Username=following;
+				arr.add(u);
+						
+				//arr.add(name);
+				}
+				//ArrayList<Users> arr = new ArrayList<>();
 		
 			}
-			
-			
-			
-			
-			
-	
-		
+			//System.out.println("RESULT");
+		//	for(int i=0;i<array.size();i++)
+	//	{
+		//	String x =arr.get(i);
+	//	System.out.println(x);
+//			}
+
 				}
 
 */
