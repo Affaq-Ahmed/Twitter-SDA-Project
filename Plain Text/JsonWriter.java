@@ -144,10 +144,8 @@ writer.flush();
 		 
 		
 	
+	
 		
-		
-		
-
 	}
 	}
 
@@ -1618,3 +1616,66 @@ return -1;
    }
  */
  
+/*
+ 	
+			
+		
+		//   public ArrayList<Users> GetFollowers(String CUsername)
+		{
+		ArrayList<Users> res = new ArrayList<>();
+//String CUsername="hammad";
+		ArrayList<String> arr = new ArrayList<>();
+		File file = new File("AllUsers.txt");
+		 try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8.name())) {
+	        while (sc.hasNextLine()){
+	          
+	        	String ss=sc.next();
+	        	if(!(ss.equals("#Users")))
+	          arr.add(ss) ;
+	        
+	        }
+	    }
+	    catch (IOException e) {
+	        e.printStackTrace();
+	    }
+		
+			JSONParser jsonparser=new JSONParser();
+
+		 FileReader reader=new FileReader("File.json");
+			Object obj=jsonparser.parse(reader);
+		
+			for(int i=0;i<arr.size();i++) {
+			JSONObject jobj=(JSONObject)obj;
+			//System.out.println(jobj );
+
+			jobj=(JSONObject)jobj.get(arr.get(i));
+		if(jobj!=null) {	
+			//System.out.println(jobj );
+
+			//JSONObject jobjj=new JSONObject();
+			JSONArray array1=(JSONArray)jobj.get("Following");			
+			
+			for(int j=0;j<array1.size();j++)
+			{
+				if(array1.get(j).equals(CUsername))
+				{
+					Users uu;
+					
+					uu.Username=(String)jobj.get("Username");
+			uu.Name=	GetName(uu.Username);//username ka name
+
+				res.add(uu);
+				
+				}
+			}
+			
+			
+			}
+			}
+		//	String name=user.Username;
+			//jobj=(JSONObject)jobj.get(name);
+		 
+		 
+		 return res;
+} 
+ */
