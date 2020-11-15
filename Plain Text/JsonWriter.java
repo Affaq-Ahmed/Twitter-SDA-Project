@@ -141,6 +141,9 @@ writer.flush();
 		
 		*/
 
+		 
+		
+		 
 		
 		
 		
@@ -218,225 +221,291 @@ writer.flush();
  */ 	
 
 /*
-   public int Signup(UsersD user) throws IOException, ParseException
+    public int Signup(UsersD user) throws IOException, ParseException
 
-	{
-		JSONParser jsonparser=new JSONParser();
-
-		FileReader reader=new FileReader("Users.json");
-		Object obj=jsonparser.parse(reader);
-		//System.out.println("OBJ : "+obj );
-
-		JSONObject jobj=(JSONObject)obj;
-		JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
-
-		//System.out.println(jobj+ "\nsize" + jobj.size() );
-		for(int i=0;i<jobj.size();i++)
-		{
-			
-		}
-		String uname=user.Username;
-		jobj=(JSONObject)jobj.get(uname);
-		//System.out.println("User : "+jobj );
-		//users doesnt exist for login
-		if(jobj==null) {
-		//	return -1; //user doesnt exist ..we can add him
-			
-			JSONObject obj3=new JSONObject();
-			obj3.put("Username", uname);
-			obj3.put("Password", user.Password);
-						obj3.put("Name", user.Name);
-
-			jobj_2.put(uname, obj3);
-		//	System.out.println("User ADDED"+jobj_2+"\n" );
-//writing to file now
-			FileWriter writer=new FileWriter("Users.json");
-			writer.write(jobj_2.toString());
-			writer.flush();
-			return 1;//done ,user added
-			}
-		else
-		{
-			return 0;//Already exists
-		}
-	}
-	
- */
-
-
-
-/*
- *   public int Follow(String CUsername,String Username) throws IOException, ParseException
-{
-	JSONParser jsonparser=new JSONParser();
-		JSONObject json1=new JSONObject();
-
-		FileReader reader=new FileReader("File.json");
-		Object obj=jsonparser.parse(reader);
-		//System.out.println("OBJ : "+obj );
-
-		JSONObject jobj=(JSONObject)obj;
-		//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
-
-		//System.out.println(jobj+ "\nsize" + jobj.size() );
-		for(int i=0;i<jobj.size();i++)
-		{
-			
-		}
-		boolean flag=false;
-		//String name=user.Username;
-		jobj=(JSONObject)jobj.get(CUsername);
-		//System.out.println("User : "+jobj );
-		//users doesnt exist for login
-		if(jobj==null) //user doesnt even exist ,exit function
-	{
-		//	return -1; 
-		//System.out.println("User doesnt exist" );
-		JSONObject json=new JSONObject();
-		json.put("Username", CUsername);
-JSONArray jarr=new JSONArray();
-jarr.add("#Following");
-json.put("Following", jarr);
-//json1.put("qasim", json);
-json1=json;
-		}
-		else
-		{
-			json1=jobj;
-		}
-		//else//user exists now check for follow
-	//	{
-		
-//System.out.println("obj : "+json1 );
-
-		//JSONObject jj=(JSONObject)json1.get("qasim");
-		//System.out.println("jj : "+jj );
-
-			JSONArray array1=(JSONArray)json1.get("Following");
-			
-			//System.out.println("Array : "+array );
-			//System.out.println("Array1 : "+array1);
-		//	System.out.println("Username : "+json1.get("Username"));
-			//System.out.println("New User add in File.json : "+json1);
-
-	
-			for(int i=0;i<array1.size();i++)
 			{
-				String follower=(String)array1.get(i);
-				System.out.println("Follower : "+i+follower );
-				
-				if(Username.equals(follower))
-						{
-					flag=true;
-					//Follower already exits
-					//System.out.println("User already has this follower" );
-
-					return 0;
-						}
-				else
-				{
-					flag=false;
-				}
-				
-					
-			}
-			
-			if(!flag) {
-				//Follower doesnt exist before so add him/her
-				array1.add(Username);
-			//	System.out.println("Follower Added : "+json1 );
-
-			}
-			JSONObject js=(JSONObject)obj;
-			js.put(CUsername,json1 );
-			
-	//	System.out.println("Followers after addition : "+js );
-			
-		FileWriter writer=new FileWriter("File.json");
-		writer.write(js.toString());
-			writer.flush();
-			return 1;//done ,follower added
-
-
-		
-		}
- */
-/*
- *
- * //unfollow(need to be changed like follow)
- * 
-   public int UnFollow(String CUsername,String Username)throws IOException, ParseException
-		  {
 				JSONParser jsonparser=new JSONParser();
 
-				FileReader reader=new FileReader("File.json");
+				FileReader reader=new FileReader("Users.json");
 				Object obj=jsonparser.parse(reader);
 				//System.out.println("OBJ : "+obj );
 
 				JSONObject jobj=(JSONObject)obj;
-				//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
+				JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
 
 				//System.out.println(jobj+ "\nsize" + jobj.size() );
 				for(int i=0;i<jobj.size();i++)
 				{
 					
 				}
-				boolean flag=false;
-				//String name=user.Username;
-				jobj=(JSONObject)jobj.get(CUsername);
+				String uname=user.Username;
+			//	String uname="khizar";
+
+String xx=uname.concat("\n");
+jobj=(JSONObject)jobj.get(uname);
 				//System.out.println("User : "+jobj );
 				//users doesnt exist for login
-				if(jobj==null) //user doesnt even exist ,exit function
-				{
-					return -1; //user doesnt exist ..
-					//System.out.println("User doesnt exist" );
+				if(jobj==null) {
 
-					}
-				else//user exists now check for follow
-				{
-					JSONArray array=(JSONArray)jobj.get("Following");
-					//System.out.println("Array : "+array );
-					for(int i=0;i<array.size();i++)
-					{
-						String follower=(String)array.get(i);
-						//System.out.println("Follower : "+i+follower );
-						
-						if(Username.equals(follower))
-								{
-							//remove the follower
-							flag=true;
-							array.remove(i);
-							//System.out.println(" unfollowed" );
-							FileWriter writer=new FileWriter("File.json");
-							writer.write(obj.toString());
-							writer.flush();
-							//System.out.println("End Array : "+array );
-
-	//break;
-							return 1;//unfollowed
-								}
-						else
-						{
-							flag=false;
-						}
-						
-							
-					}
-					if(!flag) {
-						//Follower doesnot exist
-	//					System.out.println("Follower doest exist " );
-//
-						return 0;//Follower doeosnt exist
+					try {
+					    Files.write(Paths.get("AllUsers.txt"), xx.getBytes(), StandardOpenOption.APPEND);
+					}catch (IOException e) {
+					    //exception handling left as an exercise for the reader
 					}
 					
-				//	System.out.println("Followers after addition : "+obj );
-					
-					//return 1;//done ,follower added
+					JSONObject obj3=new JSONObject();
+					obj3.put("Username", uname);
+					obj3.put("Password",user.Password );
+								obj3.put("Name", uname);
 
+					jobj_2.put(uname, obj3);
+				//	System.out.println("User ADDED"+jobj_2+"\n" );
+		//writing to file now
+					FileWriter writer=new FileWriter("Users.json");
+					writer.write(jobj_2.toString());
+					writer.flush();
+					return 1;//done ,user added
+					}
+				else
+				{
+					return 0;//Already exists
 				}
-				return 0;
-				}
+		}
+			
  */
+
+
+
+/*
+  public int Follow(String CUsername,String Username) throws IOException, ParseException
+		 {
+		
+		
+		String CUsername="qasim";
+		String Username="khizar";
+		 	JSONParser jsonparser=new JSONParser();
+		 		JSONObject json1=new JSONObject();
+
+		 		FileReader reader=new FileReader("File.json");
+		 		Object obj=jsonparser.parse(reader);
+		 		//System.out.println("OBJ : "+obj );
+
+		 		JSONObject jobj=(JSONObject)obj;
+		 		//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
+
+		 		//System.out.println(jobj+ "\nsize" + jobj.size() );
+		 		for(int i=0;i<jobj.size();i++)
+		 		{
+		 			
+		 		}
+		 		boolean flag=false;
+		 		//String name=user.Username;
+		 		jobj=(JSONObject)jobj.get(CUsername);
+		 		//System.out.println("User : "+jobj );
+		 		//users doesnt exist for login
+		 		if(jobj==null) //user doesnt even exist ,exit function
+		 	{
+		 		//	return -1; 
+		 		//System.out.println("User doesnt exist" );
+		 		JSONObject json=new JSONObject();
+		 		json.put("Username", CUsername);
+		 JSONArray jarr=new JSONArray();
+		 jarr.add("#Following");
+		 json.put("Following", jarr);
+		 //json1.put("qasim", json);
+		 json1=json;
+		 		}
+		 		else
+		 		{
+		 			json1=jobj;
+		 		}
+		 		//else//user exists now check for follow
+		 	//	{
+		 		
+		 //System.out.println("obj : "+json1 );
+
+		 		//JSONObject jj=(JSONObject)json1.get("qasim");
+		 		//System.out.println("jj : "+jj );
+
+		 			JSONArray array1=(JSONArray)json1.get("Following");
+		 			
+		 			//System.out.println("Array : "+array );
+		 			//System.out.println("Array1 : "+array1);
+		 		//	System.out.println("Username : "+json1.get("Username"));
+		 			//System.out.println("New User add in File.json : "+json1);
+
+		 	
+		 			//block users check ---------username has blocked Cusernames
+		 			FileReader reader2=new FileReader("BlockFile.json");
+			 		Object obj2=jsonparser.parse(reader2);
+		 			JSONObject jobbj=(JSONObject)obj2;
+		 			jobbj=(JSONObject)jobbj.get("hassan");
+		 		
+		 			
+		 			
+		 			if(jobbj!=null) {
+		 				JSONArray arrr=new JSONArray();
+			 			arrr=(JSONArray)jobbj.get("BlockList");
+			 			System.out.println("block : "+jobbj );
+for(int k=0;k<arrr.size();k++)
+{
+	if(CUsername.equals(arrr.get(k)))
+	{
+		//	System.out.println("return 0" );
+return 0;
+	}
+}
+		 			}
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			//user1 has blocked user2
+		 			FileReader reader3=new FileReader("BlockFile.json");
+			 		Object obj3=jsonparser.parse(reader3);
+		 			JSONObject jobbj3=(JSONObject)obj3;
+		 			jobbj3=(JSONObject)jobbj3.get(CUsername);
+		 		
+		 			
+		 			
+		 			if(jobbj3!=null) {
+		 				JSONArray arrr=new JSONArray();
+			 			arrr=(JSONArray)jobbj3.get("BlockList");
+			 			System.out.println("block : "+jobbj3 );
+for(int k=0;k<arrr.size();k++)
+{
+	if(Username.equals(arrr.get(k)))
+	{
+			//System.out.println("return -1" );
+return -1;
+	}
+}
+		 			}
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			
+		 			for(int i=0;i<array1.size();i++)
+		 			{
+		 				String follower=(String)array1.get(i);
+		 				System.out.println("Follower : "+i+follower );
+		 				
+		 				if(Username.equals(follower))
+		 						{
+		 					flag=true;
+		 					//Follower already exits
+		 					//System.out.println("User already has this follower" );
+
+		 					return -2;
+		 						}
+		 				else
+		 				{
+		 					flag=false;
+		 				}
+		 				
+		 					
+		 			}
+		 			
+		 			if(!flag) {
+		 				//Follower doesnt exist before so add him/her
+		 				array1.add(Username);
+		 			//	System.out.println("Follower Added : "+json1 );
+
+		 			}
+		 			JSONObject js=(JSONObject)obj;
+		 			js.put(CUsername,json1 );
+		 			
+		 	//	System.out.println("Followers after addition : "+js );
+		 			
+		 		FileWriter writer=new FileWriter("File.json");
+		 	writer.write(js.toString());
+		 			writer.flush();
+		 			return 1;//done ,follower added
+
+
+		 		
+		 		}
+ */
+/*
+ *
+    public int UnFollow(String CUsername,String Username)throws IOException, ParseException
+			  {
+						JSONParser jsonparser=new JSONParser();
+
+						FileReader reader=new FileReader("File.json");
+						Object obj=jsonparser.parse(reader);
+						//System.out.println("OBJ : "+obj );
+
+						JSONObject jobj=(JSONObject)obj;
+						//JSONObject jobj_2=(JSONObject)obj;//exact copy of previous one  to use next
+
+						//System.out.println(jobj+ "\nsize" + jobj.size() );
+						for(int i=0;i<jobj.size();i++)
+						{
+							
+						}
+						boolean flag=false;
+						//String name=user.Username;
+						jobj=(JSONObject)jobj.get(CUsername);
+						//System.out.println("User : "+jobj );
+						//users doesnt exist for login
+						if(jobj==null) //user doesnt even exist ,exit function
+						{
+							return 0; //user doesnt exist ..
+							//System.out.println("Users are not friend exist" );
+
+							}
+						else//user exists now check for follow
+						{
+							JSONArray array=(JSONArray)jobj.get("Following");
+							//System.out.println("Array : "+array );
+							for(int i=0;i<array.size();i++)
+							{
+								String follower=(String)array.get(i);
+								//System.out.println("Follower : "+i+follower );
+								
+								if(Username.equals(follower))
+										{
+									//remove the follower
+									flag=true;
+									array.remove(i);
+									//System.out.println(" unfollowed" );
+									FileWriter writer=new FileWriter("File.json");
+									writer.write(obj.toString());
+									writer.flush();
+									//System.out.println("End Array : "+array );
+
+			//break;
+									return 1;//unfollowed
+										}
+								else
+								{
+									flag=false;
+								}
+								
+									
+							}
+							if(!flag) {
+								//Follower doesnot exist
+			//					System.out.println("Follower doest exist " );
+		//
+							//	return 0;//Follower doeosnt exist
+							}
+							
+						//	System.out.println("Followers after addition : "+obj );
+							
+							//return 1;//done ,follower added
+
+						}
+						return 0;
+					} */
 
 
 
