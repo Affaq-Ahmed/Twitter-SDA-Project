@@ -144,7 +144,7 @@ writer.flush();
 		 
 		
 	
-	
+
 		
 	}
 	}
@@ -1678,4 +1678,49 @@ return -1;
 		 
 		 return res;
 } 
+ */
+
+
+
+/*
+		 public ArrayList<Users> Search(String Text)
+		 {
+		ArrayList<Users> res = new ArrayList<>();
+//String CUsername="hammad";
+		String Text="khi";
+		ArrayList<String> arr = new ArrayList<>();
+		File file = new File("AllUsers.txt");
+		 try (Scanner sc = new Scanner(file, StandardCharsets.UTF_8.name())) {
+	        while (sc.hasNextLine()){
+	          
+	        	String ss=sc.next();
+	        	if(!(ss.equals("#Users")))
+	          arr.add(ss) ;
+	        
+	        }
+	    }
+	    catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	//	for(int i=0;i<arr.size();i++)
+		//{
+			//System.out.println(arr.get(i));
+
+		//}
+		for(int i=0;i<arr.size();i++) {
+		
+		if((arr.get(i)).contains(Text))
+		{
+			//SUBSTRING FOUND
+			Users uu;
+			
+			uu.Username=arr.get(i);
+	uu.Name=GetName(uu.Username);//username ka name
+
+		res.add(uu);
+		}
+		
+		}
+		return res;
+		}
  */
