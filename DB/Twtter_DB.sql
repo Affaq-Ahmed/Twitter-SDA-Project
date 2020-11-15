@@ -43,8 +43,8 @@ Create Table DMs
 (
 sendid nvarchar(100) FOREIGN KEY REFERENCES Users(userid),
 recvid nvarchar(100) FOREIGN KEY REFERENCES Users(userid),
-message nvarchar(4000)
-CONSTRAINT pk_DM PRIMARY KEY (sendid,recvid)
+message nvarchar(1000)
+--CONSTRAINT pk_DM PRIMARY KEY (sendid,recvid)
 )
 go
 
@@ -186,7 +186,14 @@ create Procedure Follow
 @output int OUTPUT
 As
 Begin
-	if exists (select * From Blocked where Blocked.userid=@userid2 and Blocked.blockedid=@userid)
+if @userid=@userid2 
+begin
+set @output=2 --cant follow my self
+return
+end
+else
+begin
+	if exists (select * From Blocked where Blocked.userid=@userid2 and Blocked.blockedid=@userid) or not exists (select * from users where userid=@userid2)
 		Begin
 			set @output=0 --can't follow user2....user2 blocked user1
 			return
@@ -207,6 +214,8 @@ Begin
 			set @output=1 --Successfully followed
 			return
 		End
+end
+
 End
 go
 
@@ -348,7 +357,7 @@ create Procedure Tweet
 @output int OUTPUT
 As
 Begin
-	if exists (select * From Tweets )
+	if not exists (select * From Tweets )
 	Begin
 		declare @tweetid1 int
 		set @tweetid1=1
@@ -360,12 +369,13 @@ Begin
 	Begin
 		declare @tweetid2 int
 		set @tweetid2 = (select max(Tweets.tweetid) From Tweets)
-		Insert into Tweets values( @tweetid2, @userid, @text)
+		Insert into Tweets values( @tweetid2+1, @userid, @text)
 		set @output=1 --done
 		return
 	End
 End
 go
+
 
 --9
 drop Procedure if exists ReTweet
@@ -377,12 +387,14 @@ create Procedure ReTweet
 @output int OUTPUT
 As
 Begin
-	if exists (select * From Tweets where Tweets.tweetid=@Tweetid)
+	if exists (select * From Tweets where Tweets.tweetid=@Tweetid) and not exists (select * from Blocked where 
+											(userid=(select Tweets.userid from Tweets where tweetid=@Tweetid) and blockedid=@userid) or 
+											(blockedid=(select Tweets.userid from Tweets where tweetid=@Tweetid) and userid=@userid))
 	Begin
 		declare @retweetid int
 		set @retweetid = (select max(Tweets.tweetid) From Tweets)
-		Insert into Tweets values( @retweetid, @userid, @text)
-		Insert into ReTweets values( @Tweetid, @userid ,@retweetid )
+		Insert into Tweets values( @retweetid+1, @userid, @text)
+		Insert into ReTweets values( @Tweetid, @userid ,@retweetid+1 )
 		set @output=1 --done
 		return
 	End
@@ -394,6 +406,49 @@ Begin
 End
 go
 
+declare  @Test int
+exec Tweet 'Qasim_1101','Qasim_1101 Tweeted', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Tweet 'Qasim_1101','Qasim_1101 Tweeted again', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Tweet 'Qasim_1101','Qasim_1101 Tweeted again2', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Tweet 'Qasim_1101','Qasim_1101 Tweeted again3', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Tweet 'faf','faf tweet 1', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Tweet 'faf','faf tweet 2', @Test OUT
+Select @Test
+go
+declare  @Test int
+exec Tweet 'faf','faf tweet 3', @Test OUT
+Select @Test
+go
+
+select * from Tweets
+
+declare  @Test int
+exec ReTweet 1,'Hassan_1102','Qasim_1101 Tweeted', @Test OUT
+Select @Test
+go
+select * from ReTweets
+
+
 --10
 drop Procedure if exists Block
 go
@@ -402,6 +457,8 @@ create Procedure Block
 @userid2 nvarchar(100),
 @output int OUTPUT
 As
+Begin
+if exists(select * from Users where @userid2=userid)and (@userid!=@userid2)
 Begin
 	if exists (select * From Blocked where Blocked.userid=@userid and Blocked.blockedid=@userid2)
 		Begin
@@ -412,14 +469,37 @@ Begin
 	else
 		Begin
 			Insert into Blocked values (@userid, @userid2)
+			exec UnFollow @userid, @userid2, @output OUT
+			exec UnFollow @userid, @userid2, @output OUT
 			set @output=1 --Successfully Blocked
 			return
 		End
 End
+set @output=0
+return
+End
 go
 
+declare  @Test int
+exec Block'Qasim_1101','Hassan_1102', @Test OUT
+Select @Test
+go
+declare  @Test int
+exec Block'Qasim_1101','faf', @Test OUT
+Select @Test
+go
+declare  @Test int
+exec Block'Qasim_1101','Khizer_1007', @Test OUT
+Select @Test
+go
+go
+exec BlockedUsers 'Qasim_1101'
+go
+
+select * from Users
+
 --11
-drop Procedure if exists addLiked
+drop Procedure if exists addLike
 go
 create Procedure addLike
 @userid nvarchar(100),
@@ -448,6 +528,36 @@ Begin
 	End
 End
 go
+
+select * from Tweets
+go
+declare  @Test int
+exec addLike'Khizer_1007',1, @Test OUT
+Select @Test
+go
+go
+declare  @Test int
+exec addLike'Khizer_1007',2, @Test OUT
+Select @Test
+go
+go
+declare  @Test int
+exec addLike'Qasim_1101',2, @Test OUT
+Select @Test
+go
+go
+declare  @Test int
+exec addLike'faf',2, @Test OUT
+Select @Test
+go
+go
+declare  @Test int
+exec addLike'Affaq_1141',2, @Test OUT
+Select @Test
+go
+
+select * from Likes
+
 
 --11
 drop Procedure if exists Bookmark
@@ -480,6 +590,20 @@ Begin
 End
 go
 
+select * from Tweets
+go
+declare  @Test int
+exec Bookmark 'Khizer_1007',1, @Test OUT
+Select @Test
+go
+go
+declare  @Test int
+exec Bookmark 'Khizer_1007',2, @Test OUT
+Select @Test
+go
+
+select * from Bookmarks
+
 --12
 drop Procedure if exists GetBookmarks
 go
@@ -487,65 +611,232 @@ create Procedure GetBookmarks
 @userid nvarchar(100)
 As
 Begin
-	select Bookmarks.userid as Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
-	from Bookmarks join Users on Bookmarks.userid=users.userid join Tweets on Bookmarks.tweetid=Tweets.tweetid
+	select Users.userid as Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
+	from Bookmarks  join Tweets on Bookmarks.tweetid=Tweets.tweetid join Users on Tweets.userid=users.userid
 	where Bookmarks.userid=@userid
 	return
 End
 go
 
---13
-drop Procedure if exists GetReplies
 go
-create Procedure GetReplies
-@Tweetid int
-As
-Begin
-	select Replys.userid Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
-	from Replys join Users on Replys.userid=users.userid join Tweets on Replys.rep_tweetid=Tweets.tweetid
-	where Replys.tweetid=@Tweetid
-	return
-End
+exec GetBookmarks 'Khizer_1007'
 go
 
---14
+--13
+
 drop Procedure if exists LikedTweets
 go
 create Procedure LikedTweets
 @userid nvarchar(100)
 As
 Begin
-	select Likes.userid as Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
-	from Likes join Users on Likes.userid=users.userid join Tweets on Likes.tweet_id=Tweets.tweetid
+	select Users.userid as Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
+	from Likes join Tweets on Likes.tweet_id=Tweets.tweetid join Users on Tweets.userid=users.userid
 	where Likes.userid=@userid
 	return
 End
 go
 
---15
+go
+exec LikedTweets'Khizer_1007'
+go
+
+--14
 drop Procedure if exists GetLikers
 go
 create Procedure GetLikers
-@userid nvarchar(100)
+@tweetid int
 As
 Begin
 	select Likes.userid as Username,Users.name as Name
 	from Likes join Users on Likes.userid=users.userid
-	where Likes.userid=@userid
+	where Likes.tweet_id=@tweetid
 	return
 End
 go
 
---16
+go
+exec GetLikers 2
+go
+
+
+--15
 drop Procedure if exists UserTweets
 go
 create Procedure UserTweets
 @userid nvarchar(100)
 As
 Begin
-	select Tweets.tweetid As Tweetid, Tweets.text As Text
-	from Tweets
+	select Users.userid as Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
+	from Tweets join Users on Users.userid=Tweets.userid
 	where Tweets.userid=@userid
 	return
 End
 go
+
+go
+exec UserTweets 'Qasim_1101'
+go
+
+go
+exec UserTweets 'Hassan_1102'
+go
+
+go
+exec UserTweets 'faf'
+go
+
+--16
+drop Procedure if exists Reply
+go
+create Procedure Reply
+@Tweetid int,
+@userid nvarchar(100),
+@text nvarchar(1000),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Tweets where Tweets.tweetid=@Tweetid) and not exists (select * from Blocked where 
+											(userid=(select Tweets.userid from Tweets where tweetid=@Tweetid) and blockedid=@userid) or 
+											(blockedid=(select Tweets.userid from Tweets where tweetid=@Tweetid) and userid=@userid))
+	Begin
+		declare @replyid int
+		set @replyid = (select max(Tweets.tweetid) From Tweets)
+		Insert into Tweets values( @replyid+1, @userid, @text)
+		Insert into Replys values( @Tweetid, @userid ,@replyid+1 )
+		set @output=1 --done
+		return
+	End
+	else
+	Begin
+		set @output=0 --invalid tweetid
+		return
+	End
+End
+go
+
+declare  @Test int
+exec Reply 8,'Hassan_1102','Goodhogya g', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Reply 8,'Khizer_1007','Asa hi laga raho', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Reply 8,'faf','Acting ka badshah ho yar', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec Reply 8,'Affaq_1141','Aik din zaoror kamyab ho jao ga', @Test OUT
+Select @Test
+go
+
+select * from Tweets
+
+select* from Replys
+
+
+---17
+drop Procedure if exists GetReplies
+go
+create Procedure GetReplies
+@Tweetid int
+As
+Begin
+	select Users.userid Username,Users.name as Name, Tweets.tweetid As Tweetid, Tweets.text As Text
+	from Replys join Tweets on Replys.rep_tweetid=Tweets.tweetid join Users on Tweets.userid=users.userid
+	where Replys.tweetid=@Tweetid
+	return
+End
+go
+
+go
+exec GetReplies 8
+go
+
+---18
+drop Procedure if exists DM
+go
+create Procedure DM
+@Receiver nvarchar(100),
+@Sender nvarchar(100),
+@text nvarchar(1000),
+@output int OUTPUT
+As
+Begin
+	if exists (select * From Users where Users.userid=@Receiver) and not exists (select * from Blocked where 
+											(userid=@Receiver and blockedid=@Sender) or (blockedid=@Receiver and userid=@Sender) )
+	Begin
+		Insert into DMs values( @Sender, @Receiver ,@text)
+		set @output=1 --done
+		return
+	End
+	else
+	Begin
+		set @output=0 --invalid tweetid
+		return
+	End
+End
+go
+
+declare  @Test int
+exec DM 'Qasim_1101','Affaq_1141','Aik din zaoror kamyab ho jao ga', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec DM 'Affaq_1141','Qasim_1101','tum bhi', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec DM 'Qasim_1101','Affaq_1141','How are you nigga', @Test OUT
+Select @Test
+go
+
+declare  @Test int
+exec DM 'Affaq_1141','Qasim_1101','am fine what about u boi', @Test OUT
+Select @Test
+go
+
+select* from DMs
+
+---19
+drop Procedure if exists Chat
+go
+create Procedure Chat
+@Sender nvarchar(100),
+@Receiver nvarchar(100)
+As
+Begin
+	--if exists (select * From Users where Users.userid=@Receiver) 
+	--Begin
+		Select sendid as SUsername,U0.name as SName,recvid as RUsername,U.name as RName,message as Text
+		from (DMs join Users as U0 on sendid=U0.userid) join Users as U on U.userid=recvid
+		where (DMs.recvid=@Receiver and DMs.sendid=@Sender) or (DMs.recvid=@Sender and DMs.sendid=@Receiver)
+		return
+	--End
+End
+go
+
+go
+exec Chat 'Affaq_1141','Qasim_1101'
+go
+
+-----testing
+
+Select* from Users
+select * from Followed
+select * from Blocked
+select * from Tweets
+select * from ReTweets
+select * from Replys
+select * from Bookmarks
+select * from DMs
+select * from Likes
+
+select name from Users where userid='faf'
