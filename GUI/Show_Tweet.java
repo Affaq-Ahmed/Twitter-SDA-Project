@@ -77,6 +77,7 @@ public class Show_Tweet extends javax.swing.JFrame {
         jButton_Like = new javax.swing.JButton();
         jButton_Reply = new javax.swing.JButton();
         jButton_Retweet = new javax.swing.JButton();
+        jButton_bookmark = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea_ReplyText = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -279,6 +280,16 @@ public class Show_Tweet extends javax.swing.JFrame {
             }
         });
 
+        jButton_bookmark.setBackground(new java.awt.Color(255, 255, 255));
+        jButton_bookmark.setForeground(new java.awt.Color(255, 0, 51));
+        jButton_bookmark.setIcon(new javax.swing.ImageIcon(getClass().getResource("/GUI/icons/bookmark.png"))); // NOI18N
+        jButton_bookmark.setToolTipText("");
+        jButton_bookmark.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_bookmarkActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel_tweetidLayout = new javax.swing.GroupLayout(jPanel_tweetid);
         jPanel_tweetid.setLayout(jPanel_tweetidLayout);
         jPanel_tweetidLayout.setHorizontalGroup(
@@ -291,8 +302,11 @@ public class Show_Tweet extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel_Tweetid, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel_tweetidLayout.createSequentialGroup()
-                        .addGroup(jPanel_tweetidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel_tweetidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel_tweetidLayout.createSequentialGroup()
+                                .addComponent(jLabel_Username, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton_bookmark, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel_tweetidLayout.createSequentialGroup()
                                 .addComponent(jButton_Like, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -312,10 +326,13 @@ public class Show_Tweet extends javax.swing.JFrame {
             .addGroup(jPanel_tweetidLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel_tweetidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel_Tweetid))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel_Username)
+                    .addGroup(jPanel_tweetidLayout.createSequentialGroup()
+                        .addGroup(jPanel_tweetidLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_Name, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel_Tweetid))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel_Username))
+                    .addComponent(jButton_bookmark, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(10, 10, 10)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
@@ -534,6 +551,23 @@ public class Show_Tweet extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jLabel_NumberofLikesMouseClicked
 
+    private void jButton_bookmarkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_bookmarkActionPerformed
+        // TODO add your handling code here:
+        String userid = jLabel_username.getText();
+        int tweetid = Integer.valueOf(jLabel_Tweetid.getText());
+        
+        int result = SQL.user.Bookmark(userid, tweetid);
+        if(result == 1){
+            JOptionPane.showMessageDialog(rootPane, "Successfully Bookmarked!!!");
+        }
+        else if(result == -1){
+            JOptionPane.showMessageDialog(rootPane, "Already Bookmarked!!!");
+        }
+        else if(result == 0){
+            JOptionPane.showMessageDialog(rootPane, "Tweet Doesn't Exist!!! Kindly Reload the page.!!!");
+        }
+    }//GEN-LAST:event_jButton_bookmarkActionPerformed
+
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -543,6 +577,7 @@ public class Show_Tweet extends javax.swing.JFrame {
     private javax.swing.JButton jButton_Retweet;
     private javax.swing.JButton jButton_Search;
     private javax.swing.JButton jButton_Tweet;
+    private javax.swing.JButton jButton_bookmark;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_Bookmarks11;
     private javax.swing.JLabel jLabel_Home11;

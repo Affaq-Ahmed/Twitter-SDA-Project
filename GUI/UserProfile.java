@@ -553,7 +553,15 @@ public class UserProfile extends javax.swing.JFrame {
 
     private void jButton_MessageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_MessageActionPerformed
         // TODO add your handling code here:
+        String curruserid = jLabel_Username.getText();
+        String userid = jLabel_username.getText();
         
+        Chat p = new Chat(curruserid,userid);
+        p.setVisible(true);
+        p.pack();
+        p.setLocationRelativeTo(null);
+        //p.setDefaultCloseOperation(JFrame.MAXIMIZED_BOTH);
+        //this.dispose();
     }//GEN-LAST:event_jButton_MessageActionPerformed
 
     
